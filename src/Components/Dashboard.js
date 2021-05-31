@@ -23,6 +23,9 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ChatBubbleOutlineOutlinedIcon from '@material-ui/icons/ChatBubbleOutlineOutlined';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import BarGraph from './BarChart'
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 const drawerWidth = 250;
 
@@ -85,7 +88,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
  
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+    console.log('clicked')
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -97,6 +112,10 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Artemis
           </Typography>
+          <form style={{marginRight:'20px', width:'50%'}}>
+          <TextField fullWidth label="search"></TextField>
+          </form>
+          
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon fontsize="small"/>
@@ -112,9 +131,22 @@ export default function Dashboard() {
           
           </IconButton>
           Kanishk Malethiya
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={handleMenu}>
               <AccountCircleIcon />
           </IconButton>
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Profile</MenuItem>
+            <MenuItem onClick={handleClose}>My account</MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Drawer

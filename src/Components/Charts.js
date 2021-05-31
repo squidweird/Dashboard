@@ -1,8 +1,11 @@
-import React from 'react';
+import React ,{useState} from 'react';
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
 import {subDays} from "date-fns"
 import Button from '@material-ui/core/Button'
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+
 
 
 
@@ -18,12 +21,38 @@ for(let num=0; num<=30; num++){
 }
 
 export default function Chart() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+
+ 
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+    console.log('clicked')
+  };
+
+  const handleClose = (event) => {
+  
+    setAnchorEl(null);
+  };
 
   return (
     <React.Fragment>
       <div style={{paddingBottom:"10px"}}>
         <h3 style={{marginLeft:"15px", marginTop:"0", marginBottom:"0", display:"inline-block"}} >Balance</h3>
-        <Button size="small" style={{display:'inline-block',position:"relative",left:"55%", paddingTop:"0"}} variant="outlined">Monthly <KeyboardArrowDownIcon /></Button>
+        <Button onClick={handleMenu} size="small" style={{display:'inline-block',position:"relative",left:"55%", paddingTop:"0"}} variant="outlined">Monthly <KeyboardArrowDownIcon /></Button>
+        <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={open}
+            onClose={handleClose}
+          >
+            <MenuItem id={1} onClick={handleClose}>Yearly</MenuItem>
+            <MenuItem id={2} onClick={handleClose}>Quaterly</MenuItem>
+          </Menu>
       </div>
       <hr />
       <div className="container" style={{display:"flex", justifyContent:'space-evenly'}}>
